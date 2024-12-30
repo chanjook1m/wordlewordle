@@ -1,0 +1,32 @@
+footer {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+
+.kb-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background-color: #d3d6da;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.enter,
+.delete {
+  width: 100px;
+}
