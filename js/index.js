@@ -4,18 +4,32 @@ let answer = "APPLE";
 let timer = null;
 
 function appStart() {
-  const displayGameOver = () => {
+  const displayGameOver = (text) => {
     const gameOver = document.createElement("div");
     gameOver.classList.add("game-over");
-    gameOver.innerText = "Game Over";
+    gameOver.innerText = text;
     gameOver.style =
       "display: flex; justify-content: center; align-items: center; font-size: 2rem; font-weight: bold; color: red; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);";
+    const keyframes = [
+      { transform: "rotateX(180deg)", opacity: 1 },
+      { transform: "rotateY(180deg)", opacity: 0 },
+      { transform: "rotateZ(180deg)", opacity: 1 },
+      { transform: "rotateX(360deg)", opacity: 0 },
+      { transform: "rotateY(360deg)", opacity: 1 },
+      { transform: "rotateZ(360deg)", opacity: 1 },
+    ];
+    const options = {
+      duration: 2000,
+      easing: "linear",
+      fill: "forwards",
+    };
+    gameOver.animate(keyframes, options);
     document.body.appendChild(gameOver);
   };
 
   const nextLine = () => {
     if (attempts === 5) {
-      gameOver();
+      gameOver("GAME OVER!!!");
 
       return;
     }
@@ -32,9 +46,9 @@ function appStart() {
     }
   };
 
-  const gameOver = () => {
+  const gameOver = (text) => {
     window.removeEventListener("keydown", handleKeyDown);
-    displayGameOver();
+    displayGameOver(text);
     clearInterval(timer);
     showAnswerOnKeyboard();
   };
@@ -60,7 +74,7 @@ function appStart() {
       curBlock.style.color = "white";
     }
     if (correct === 5) {
-      gameOver();
+      gameOver("GOOD JOB!!!");
 
       return;
     }
