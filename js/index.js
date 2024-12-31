@@ -23,10 +23,20 @@ function appStart() {
     index = 0;
   };
 
+  const showAnswerOnKeyboard = () => {
+    for (let i = 0; i < answer.length; i++) {
+      const keyBlock = document.querySelector(
+        `.kb-block[data-key='${answer[i]}']`
+      );
+      keyBlock.style.backgroundColor = "#6AAA64";
+    }
+  };
+
   const gameOver = () => {
     window.removeEventListener("keydown", handleKeyDown);
     displayGameOver();
     clearInterval(timer);
+    showAnswerOnKeyboard();
   };
 
   const handleEnterKey = () => {
@@ -64,6 +74,45 @@ function appStart() {
       );
       prevBlock.innerText = "";
     }
+  };
+
+  const handleClick = (event) => {
+    const key = event.target.innerText;
+    const curBlock = document.querySelector(
+      `.board-block[data-index='${attempts}${index}']`
+    );
+
+    if (key === "DEL") {
+      handleBackspace();
+      return;
+    }
+
+    if (index === 5 && key === "ENTER") {
+      handleEnterKey();
+      return;
+    }
+
+    if (index >= 5) return;
+
+    curBlock.innerText = key.toUpperCase();
+    index++;
+    const keyBlock = document.querySelector(
+      `.kb-block[data-key='${key.toUpperCase()}']`
+    );
+
+    const keyframes = [
+      { transform: "translateX(0)", opacity: 1 },
+      { transform: "translateX(50px)", opacity: 1 },
+      { transform: "translateX(0)", opacity: 1 },
+    ];
+    const options = {
+      duration: 1000,
+      easing: "linear",
+      fill: "forwards",
+    };
+    keyBlock.animate(keyframes, options);
+
+    return;
   };
 
   const handleKeyDown = (event) => {
@@ -110,6 +159,11 @@ function appStart() {
   };
 
   window.addEventListener("keydown", handleKeyDown);
+
+  const keyBlocks = document.querySelectorAll(`.kb-block`);
+  keyBlocks.forEach((keyBlock) => {
+    keyBlock.addEventListener("click", handleClick);
+  });
 }
 
 appStart();
