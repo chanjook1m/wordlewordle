@@ -78,6 +78,8 @@ function appStart() {
 
   const handleClick = (event) => {
     const key = event.target.innerText;
+    const keyCode = key.length > 1 ? 91 : Number(key.charCodeAt(0));
+
     const curBlock = document.querySelector(
       `.board-block[data-index='${attempts}${index}']`
     );
@@ -94,23 +96,25 @@ function appStart() {
 
     if (index >= 5) return;
 
-    curBlock.innerText = key.toUpperCase();
-    index++;
-    const keyBlock = document.querySelector(
-      `.kb-block[data-key='${key.toUpperCase()}']`
-    );
+    if (keyCode <= 90 && keyCode >= 65) {
+      curBlock.innerText = key.toUpperCase();
+      index++;
+      const keyBlock = document.querySelector(
+        `.kb-block[data-key='${key.toUpperCase()}']`
+      );
 
-    const keyframes = [
-      { transform: "translateX(0)", opacity: 1 },
-      { transform: "translateX(50px)", opacity: 1 },
-      { transform: "translateX(0)", opacity: 1 },
-    ];
-    const options = {
-      duration: 1000,
-      easing: "linear",
-      fill: "forwards",
-    };
-    keyBlock.animate(keyframes, options);
+      const keyframes = [
+        { transform: "translateX(0)", opacity: 1 },
+        { transform: "translateX(50px)", opacity: 1 },
+        { transform: "translateX(0)", opacity: 1 },
+      ];
+      const options = {
+        duration: 1000,
+        easing: "linear",
+        fill: "forwards",
+      };
+      keyBlock.animate(keyframes, options);
+    }
 
     return;
   };
